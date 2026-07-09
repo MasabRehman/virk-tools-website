@@ -1,4 +1,4 @@
-const API_URL = '/api/v1';
+const API_URL = import.meta.env.VITE_API_URL || 'https://virk-tools-website.onrender.com/api/v1';
 
 export const api = {
   // Products
