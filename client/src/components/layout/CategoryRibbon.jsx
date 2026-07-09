@@ -17,7 +17,7 @@ const CategoryRibbon = () => {
   }, []);
 
   return (
-    <div className="hidden lg:block bg-[#11151c] border-b border-border-gray">
+    <div className="bg-[#11151c] border-b border-border-gray">
       <div className="container mx-auto px-4 flex items-center">
         {/* Category Links */}
         <nav className="w-full flex md:justify-between items-center py-3 md:py-4 overflow-x-auto whitespace-nowrap scrollbar-hide space-x-6 md:space-x-0">
