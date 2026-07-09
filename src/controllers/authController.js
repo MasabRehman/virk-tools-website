@@ -9,7 +9,7 @@ const setAuthCookies = (res, tokens) => {
   res.cookie('access_token', tokens.accessToken, {
     httpOnly: true,
     secure: isProduction,
-    sameSite: 'strict',
+    sameSite: isProduction ? 'none' : 'lax',
     maxAge: 15 * 60 * 1000, // 15 minutes
   });
 
@@ -17,7 +17,7 @@ const setAuthCookies = (res, tokens) => {
     res.cookie('refresh_token', tokens.refreshToken, {
       httpOnly: true,
       secure: isProduction,
-      sameSite: 'strict',
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
   }
@@ -32,13 +32,13 @@ const clearAuthCookies = (res) => {
   res.clearCookie('access_token', {
     httpOnly: true,
     secure: isProduction,
-    sameSite: 'strict',
+    sameSite: isProduction ? 'none' : 'lax',
   });
 
   res.clearCookie('refresh_token', {
     httpOnly: true,
     secure: isProduction,
-    sameSite: 'strict',
+    sameSite: isProduction ? 'none' : 'lax',
   });
 };
 
@@ -124,7 +124,7 @@ const refreshToken = async (req, res, next) => {
     res.cookie('access_token', result.accessToken, {
       httpOnly: true,
       secure: isProduction,
-      sameSite: 'strict',
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 15 * 60 * 1000, // 15 minutes
     });
 

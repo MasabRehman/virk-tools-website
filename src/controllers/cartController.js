@@ -5,7 +5,13 @@ const getSessionToken = (req, res) => {
   let token = req.cookies?.session_token;
   if (!token) {
     token = crypto.randomBytes(16).toString('hex');
-    res.cookie('session_token', token, { httpOnly: true });
+    const isProduction = process.env.NODE_ENV === 'production';
+    res.cookie('session_token', token, { 
+      httpOnly: true,
+      secure: isProduction, // must be true for cross-site
+      sameSite: isProduction ? 'none' : 'lax', // must be 'none' for cross-site
+      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    });
   }
   return token;
 };
