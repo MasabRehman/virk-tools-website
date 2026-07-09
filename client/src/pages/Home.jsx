@@ -181,7 +181,7 @@ const Home = () => {
             Browse Categories
           </h2>
           <a
-            href="http://localhost:5000/api/v1/catalog/download"
+            href="https://virk-tools-website.onrender.com/api/v1/catalog/download"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-safety-yellow hover:bg-yellow-400 text-black font-bold text-sm px-4 py-2 rounded transition-all duration-200 hover:scale-105 active:scale-95"
@@ -198,7 +198,7 @@ const Home = () => {
             <Link key={cat.id} to={`/?category=${cat.id}`}>
               <ProductCard 
                 title={cat.name} 
-                image={cat.image_url ? (cat.image_url.startsWith('http') ? cat.image_url : `http://localhost:5000${cat.image_url}`) : "https://placehold.co/400x300/1F242D/9CA3AF?text=Category+Image"} 
+                image={cat.image_url ? (cat.image_url.startsWith('http') ? cat.image_url : `${cat.image_url}`) : "https://placehold.co/400x300/1F242D/9CA3AF?text=Category+Image"} 
               />
             </Link>
           ))}

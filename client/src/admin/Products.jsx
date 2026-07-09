@@ -280,7 +280,7 @@ const Products = () => {
         </div>
         <div className="flex items-center gap-3">
           <a
-            href="http://localhost:5000/api/v1/catalog/download"
+            href="https://virk-tools-website.onrender.com/api/v1/catalog/download"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary py-2 px-4 flex items-center gap-2 text-sm"

@@ -171,7 +171,7 @@ const Categories = () => {
                   >
                     <td className="px-6 py-4">
                       {cat.image_url ? (
-                        <img src={cat.image_url.startsWith('http') ? cat.image_url : `http://localhost:5000${cat.image_url}`} alt={cat.name} className="w-10 h-10 object-cover rounded border border-gray-600" />
+                        <img src={cat.image_url.startsWith('http') ? cat.image_url : `${cat.image_url}`} alt={cat.name} className="w-10 h-10 object-cover rounded border border-gray-600" />
                       ) : (
                         <div className="w-10 h-10 bg-gray-800 rounded border border-gray-600 flex items-center justify-center text-xs text-gray-500">None</div>
                       )}
@@ -275,7 +275,7 @@ const Categories = () => {
                         <span>New file selected: {imageFile.name}</span>
                       ) : (
                         <div className="flex items-center space-x-2">
-                          <img src={formData.image_url.startsWith('http') ? formData.image_url : `http://localhost:5000${formData.image_url}`} alt="Current" className="w-8 h-8 object-cover rounded" />
+                          <img src={formData.image_url.startsWith('http') ? formData.image_url : `${formData.image_url}`} alt="Current" className="w-8 h-8 object-cover rounded" />
                           <span>Current Image</span>
                         </div>
                       )}
