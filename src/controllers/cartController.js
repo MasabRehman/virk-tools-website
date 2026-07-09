@@ -2,7 +2,7 @@ const cartService = require('../services/cartService');
 const crypto = require('crypto');
 
 const getSessionToken = (req, res) => {
-  let token = req.cookies?.session_token;
+  let token = req.headers['x-cart-session'] || req.cookies?.session_token;
   if (!token) {
     token = crypto.randomBytes(16).toString('hex');
     const isProduction = process.env.NODE_ENV === 'production';
@@ -22,7 +22,7 @@ exports.getCart = async (req, res, next) => {
     const sessionToken = getSessionToken(req, res);
 
     const cart = await cartService.getCart(sessionToken, userId);
-    res.status(200).json({ success: true, data: cart });
+    res.status(200).json({ success: true, session_token: sessionToken, data: cart });
   } catch (error) {
     next(error);
   }
@@ -35,7 +35,7 @@ exports.addItem = async (req, res, next) => {
     const { product_id, quantity, variant_id, subcategory_id } = req.body;
 
     const result = await cartService.addToCart(sessionToken, userId, product_id, variant_id, subcategory_id, quantity);
-    res.status(201).json({ success: true, data: result });
+    res.status(201).json({ success: true, session_token: sessionToken, data: result });
   } catch (error) {
     next(error);
   }

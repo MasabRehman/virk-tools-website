@@ -41,41 +41,59 @@ export const api = {
   },
 
   // Cart
+  getCartHeaders: () => {
+    const headers = { 'Content-Type': 'application/json' };
+    const sessionToken = localStorage.getItem('cart_session_token');
+    if (sessionToken) {
+      headers['x-cart-session'] = sessionToken;
+    }
+    return headers;
+  },
+
+  handleCartResponse: async (res) => {
+    if (!res.ok) throw new Error('Failed to process cart request');
+    const data = await res.json();
+    if (data.session_token) {
+      localStorage.setItem('cart_session_token', data.session_token);
+    }
+    return data;
+  },
+
   getCart: async () => {
-    const res = await fetch(`${API_URL}/cart`, { credentials: 'include' });
-    if (!res.ok) throw new Error('Failed to fetch cart');
-    return res.json();
+    const res = await fetch(`${API_URL}/cart`, {
+      headers: api.getCartHeaders(),
+      credentials: 'include'
+    });
+    return api.handleCartResponse(res);
   },
 
   addToCart: async (productId, quantity, variantId = null, subcategoryId = null) => {
     const res = await fetch(`${API_URL}/cart/items`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: api.getCartHeaders(),
+      credentials: 'include',
       body: JSON.stringify({ product_id: productId, quantity, variant_id: variantId, subcategory_id: subcategoryId }),
-      credentials: 'include'
     });
-    if (!res.ok) throw new Error('Failed to add to cart');
-    return res.json();
+    return api.handleCartResponse(res);
   },
 
   updateCartItem: async (itemId, quantity) => {
     const res = await fetch(`${API_URL}/cart/items/${itemId}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: api.getCartHeaders(),
+      credentials: 'include',
       body: JSON.stringify({ quantity }),
-      credentials: 'include'
     });
-    if (!res.ok) throw new Error('Failed to update cart');
-    return res.json();
+    return api.handleCartResponse(res);
   },
 
   removeCartItem: async (itemId) => {
     const res = await fetch(`${API_URL}/cart/items/${itemId}`, {
       method: 'DELETE',
+      headers: api.getCartHeaders(),
       credentials: 'include'
     });
-    if (!res.ok) throw new Error('Failed to remove item');
-    return res.json();
+    return api.handleCartResponse(res);
   },
 
   // Checkout
