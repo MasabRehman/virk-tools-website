@@ -70,38 +70,40 @@ const Dashboard = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
         {/* Stat Cards */}
-        <div className="bg-industrial-dark border border-border-gray p-6 rounded relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <ShoppingCart size={64} className="text-safety-yellow" />
+        <div className="bg-industrial-dark border border-border-gray p-4 md:p-6 rounded relative overflow-hidden group">
+          <div className="relative z-10">
+            <h3 className="text-gray-400 font-bold text-[10px] md:text-xs uppercase tracking-wider mb-2">Total Orders</h3>
+            <p className="text-2xl md:text-4xl font-bold text-white">{stats.orders}</p>
           </div>
-          <h3 className="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Total Orders</h3>
-          <span className="text-3xl font-bold text-white">{stats.orders}</span>
-        </div>
-        
-        <div className="bg-industrial-dark border border-border-gray p-6 rounded relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <Package size={64} className="text-safety-yellow" />
-          </div>
-          <h3 className="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Total Products</h3>
-          <span className="text-3xl font-bold text-white">{cleared ? 0 : stats.products}</span>
+          <ShoppingCart className="absolute right-[-10px] bottom-[-10px] text-gray-800 w-24 h-24 opacity-20 group-hover:scale-110 transition-transform" />
         </div>
 
-        <div className="bg-industrial-dark border border-border-gray p-6 rounded relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <DollarSign size={64} className="text-safety-yellow" />
+        <div className="bg-industrial-dark border border-border-gray p-4 md:p-6 rounded relative overflow-hidden group">
+          <div className="relative z-10">
+            <h3 className="text-gray-400 font-bold text-[10px] md:text-xs uppercase tracking-wider mb-2">Total Products</h3>
+            <p className="text-2xl md:text-4xl font-bold text-white">{cleared ? 0 : stats.products}</p>
           </div>
-          <h3 className="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Revenue (Delivered)</h3>
-          <span className="text-3xl font-bold text-safety-yellow">Rs. {Number(stats.revenue).toLocaleString()}</span>
+          <Package className="absolute right-[-10px] bottom-[-10px] text-safety-yellow w-24 h-24 opacity-20 group-hover:scale-110 transition-transform" />
         </div>
 
-        <div className="bg-industrial-dark border border-border-gray p-6 rounded relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <Users size={64} className="text-safety-yellow" />
+        <div className="bg-industrial-dark border border-border-gray p-4 md:p-6 rounded relative overflow-hidden group">
+          <div className="relative z-10">
+            <h3 className="text-gray-400 font-bold text-[10px] md:text-xs uppercase tracking-wider mb-2">Revenue (Delivered)</h3>
+            <p className="text-xl md:text-4xl font-bold text-safety-yellow">
+              Rs. {Number(stats.revenue).toLocaleString()}
+            </p>
           </div>
-          <h3 className="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Total Customers</h3>
-          <span className="text-3xl font-bold text-white">{cleared ? 0 : '--'}</span>
+          <DollarSign className="absolute right-[-10px] bottom-[-10px] text-safety-yellow w-24 h-24 opacity-20 group-hover:scale-110 transition-transform" />
+        </div>
+
+        <div className="bg-industrial-dark border border-border-gray p-4 md:p-6 rounded relative overflow-hidden group">
+          <div className="relative z-10">
+            <h3 className="text-gray-400 font-bold text-[10px] md:text-xs uppercase tracking-wider mb-2">Total Customers</h3>
+            <p className="text-2xl md:text-4xl font-bold text-white">--</p>
+          </div>
+          <Users className="absolute right-[-10px] bottom-[-10px] text-gray-800 w-24 h-24 opacity-20 group-hover:scale-110 transition-transform" />
         </div>
       </div>
       

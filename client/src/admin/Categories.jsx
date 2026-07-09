@@ -137,10 +137,10 @@ const Categories = () => {
   };
 
   return (
-    <div className="flex space-x-6 h-full">
+    <div className="flex flex-col lg:flex-row lg:space-x-6 h-full">
       {/* Categories Panel */}
-      <div className="w-1/2 flex flex-col h-[80vh]">
-        <div className="flex justify-between items-center mb-6">
+      <div className="w-full lg:w-1/2 flex flex-col h-[50vh] lg:h-[80vh] mb-8 lg:mb-0">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
           <div>
             <h1 className="font-heading font-bold text-3xl text-white">Categories</h1>
             <p className="text-gray-400 mt-1">Manage main product categories.</p>
@@ -195,8 +195,8 @@ const Categories = () => {
       </div>
 
       {/* Subcategories Panel */}
-      <div className="w-1/2 flex flex-col h-[80vh]">
-        <div className="flex justify-between items-center mb-6">
+      <div className="w-full lg:w-1/2 flex flex-col h-[50vh] lg:h-[80vh]">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
           <div>
             <h1 className="font-heading font-bold text-3xl text-white">Subcategories</h1>
             <p className="text-gray-400 mt-1">
