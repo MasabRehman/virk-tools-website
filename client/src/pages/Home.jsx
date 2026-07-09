@@ -202,7 +202,7 @@ const Home = () => {
       <div className="border-y border-border-gray bg-industrial-dark">
         <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center justify-between">
           
-          <div className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-8 py-8 lg:py-0 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 py-8 w-full">
             <div className="flex items-center justify-center lg:justify-start space-x-4 border-b md:border-b-0 md:border-r border-border-gray pb-6 md:pb-0">
               <div className="text-safety-yellow">
                 <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
@@ -224,7 +224,7 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-center lg:justify-start space-x-4 pl-0 md:pl-4">
+            <div className="flex items-center justify-center lg:justify-start space-x-4 border-b lg:border-b-0 lg:border-r border-border-gray pb-6 lg:pb-0 pl-0 lg:pl-4">
               <div className="text-safety-yellow">
                 <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
               </div>
@@ -234,24 +234,20 @@ const Home = () => {
                 <p className="text-gray-400 text-xs mt-1">Mon - Sat (9:00 AM - 6:00 PM)</p>
               </div>
             </div>
-          </div>
 
-          {/* Download Catalog Banner */}
-          <div className="w-full lg:w-1/3 bg-safety-yellow text-black flex items-center justify-between p-8 cursor-pointer hover:bg-safety-yellow-hover transition-colors">
-            <div className="flex items-center space-x-4">
-              <div className="border border-black p-2 rounded">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            <div className="flex items-center justify-center lg:justify-start space-x-4 pl-0 lg:pl-4">
+              <div className="text-safety-yellow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
               </div>
               <div>
-                <h4 className="font-heading font-bold text-xl uppercase tracking-wide">Download Catalog</h4>
-                <p className="text-sm font-medium">Explore Our Complete Range</p>
+                <h4 className="font-bold text-white text-lg uppercase tracking-wide">100% Genuine</h4>
+                <p className="text-safety-yellow font-bold text-sm">AUTHENTIC BRANDS</p>
+                <p className="text-gray-400 text-xs mt-1">Guaranteed Original Products</p>
               </div>
             </div>
-            {/* Catalog book placeholder icon */}
-            <div className="w-16 h-20 bg-industrial-black rounded-sm border-l-4 border-gray-400 shadow-xl flex items-center justify-center transform rotate-12 group-hover:rotate-0 transition-transform">
-              <span className="text-safety-yellow font-heading font-bold text-xs italic">VIRK</span>
-            </div>
           </div>
+
+
           
         </div>
       </div>
