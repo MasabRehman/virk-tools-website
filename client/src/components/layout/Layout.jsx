@@ -8,7 +8,6 @@ const Layout = ({ children }) => {
     <div className="min-h-screen flex flex-col bg-industrial-black text-white">
       <TopBar />
       <Header />
-      <CategoryRibbon />
       
       <main className="flex-grow">
         {children}

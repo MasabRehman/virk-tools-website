@@ -4,6 +4,7 @@ import ProductCard from '../components/ui/ProductCard';
 import ProductCardItem from '../components/ui/ProductCardItem';
 import BrandStrip from '../components/ui/BrandStrip';
 import FeaturedProducts from '../components/ui/FeaturedProducts';
+import CategoryRibbon from '../components/layout/CategoryRibbon';
 import { api } from '../services/api';
 import { useCart } from '../context/CartContext';
 
@@ -168,6 +169,9 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      {/* Category Ribbon */}
+      <CategoryRibbon />
 
       {/* Featured Categories Grid */}
       <div className="container mx-auto px-4 pt-10 pb-6">
