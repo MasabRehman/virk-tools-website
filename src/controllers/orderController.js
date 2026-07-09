@@ -3,7 +3,7 @@ const orderService = require('../services/orderService');
 exports.checkout = async (req, res, next) => {
   try {
     const userId = req.user?.type === 'customer' ? req.user.id : null;
-    const sessionToken = req.cookies?.session_token;
+    const sessionToken = req.headers['x-cart-session'] || req.cookies?.session_token;
     
     const result = await orderService.checkout(sessionToken, userId, req.body);
     res.status(201).json({ success: true, data: result });

@@ -106,7 +106,7 @@ export const api = {
   checkout: async (checkoutData) => {
     const res = await fetch(`${API_URL}/orders/checkout`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: api.getCartHeaders(),
       body: JSON.stringify(checkoutData),
       credentials: 'include'
     });
