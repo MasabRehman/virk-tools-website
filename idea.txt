@@ -1,0 +1,185 @@
+# MASTER ENGINEERING DIRECTIVE: Full-Stack Industrial Tools E-Commerce Platform
+
+## SECTION 0: AI AGENT ROLE & MANDATORY CONSTRAINTS
+You are an autonomous Principal Software Architect and Senior Full-Stack Engineer. Your assignment is to build a complete, production-ready, highly scalable reseller e-commerce platform for industrial tools and equipment.
+
+### Strict Mandatory Constraints:
+1. **VISUAL CLONING OF REFERENCE IMAGE:** I am providing a reference image (`image_d1c33f.jpg`). You MUST visually analyze this image and replicate its exact UI layout, visual structure, spacing, card styles, color balance, and heavy industrial aesthetic across the entire application. Do not invent a different layout; treat the provided image as the definitive frontend design specification.
+2. **Reseller Business Model:** This is a middleman/reseller operation. Do NOT build warehouse or physical stock management features. Products are sourced from offline supplier catalogues, manually priced, and published by administrators.
+3. **Supplier Isolation (Security Zero-Tolerance):** Supplier details (names, wholesale costs, internal codes, contact numbers) must be isolated completely within the backend database and protected admin endpoints. They must NEVER be exposed in public APIs, frontend state, or customer-facing DOM elements.
+4. **Dual-Record Order Processing:** Upon order placement, you must execute a database transaction that saves the order to the primary SQL database AND automatically appends the order record as a new row to an external Excel (`.xlsx`) workbook on the server without overwriting existing rows.
+5. [cite_start]**No Hardcoded Business Data:** Every product, category, banner, brand logo, delivery fee rule, and company contact string must be dynamically served from the database and manageable via the Admin Control Panel[cite: 7, 21, 42, 68, 71, 73, 76, 79, 81, 83, 85, 87, 89, 91, 93, 264, 266, 268, 270, 273, 274, 275, 276, 294, 295, 296, 297, 300, 301, 302, 303, 310, 312, 314, 316, 364, 384, 395, 504, 507, 509, 511, 513, 554, 557, 560, 563, 681, 684, 687, 690, 693, 758, 759, 760, 761, 762, 765, 766, 767, 768, 769].
+
+---
+
+## SECTION 1: UI/UX DESIGN SYSTEM & THEME REPLICATION
+You must examine `image_d1c33f.jpg` and construct a design system that perfectly mirrors its visual identity.
+
+### 1. Color Palette:
+* **Industrial Black (`#0B0E14` or `#000000`):** Used for the main navigation headers, primary backgrounds, and anchor UI containers.
+* **Safety Yellow (`#FFC000` or `#FACC15`):** Used strictly for active category buttons, CTA buttons ("View All", "Add to Cart", "Checkout"), badges, promotional banners, and hover highlights.
+* **Clean White (`#FFFFFF`):** Used for typography on dark backgrounds and card content containers for maximum legibility.
+* **Supporting Grays (`#1F242D`, `#374151`, `#F3F4F6`):** Used for subtle card borders, background section separation, and disabled element states.
+
+### 2. Typography & Grid:
+* **Font Family:** Modern, high-impact industrial sans-serif (e.g., *Inter*, *Roboto*, or *Oswald* for bold headings).
+* **Hierarchy:** Maintain strict sizing from H1 (hero banners) down to scannable body text and small technical specification labels.
+* **Grid:** Implement a fluid 12-column responsive layout. Use equal margins, subtle card shadows, and consistent border radii.
+* **Responsive Breakpoints:** Desktop (`>=1200px`), Tablet (`768px - 1199px`), Mobile (`<768px`). On mobile, top navigation must collapse into a smooth drawer/hamburger menu, and cards must stack vertically while preserving touch target sizes (`>=48px`).
+
+---
+
+## SECTION 2: PAGE-BY-PAGE ARCHITECTURAL BLUEPRINT
+Replicate the exact functional flow: `Homepage -> Category -> Subcategory -> Product Listing -> Product Details -> Add to Cart -> Cart -> Checkout -> Order Confirmation`.
+
+### 1. Homepage Architecture (Exact Match to Reference Picture)
+Build the homepage to structurally mirror `image_d1c33f.jpg` from top to bottom:
+* **Top Announcement Bar:** Dark slim ribbon displaying phone contact (`+92...`), email (`info@...`), and "Worldwide Delivery" info.
+* **Main Header:**
+  * Left: Company Logo (VIRK Tools & Equipment style branding).
+  * Center: Large Global Search Bar with an attached "All Categories" dropdown filter and a yellow search submit button. Must support instant live autocomplete debounced at `300ms`, displaying product thumbnails, SKU, name, brand, and price.
+  * Right: Account action icon ("My Account / Login / Register") and Shopping Cart icon with a live item count badge.
+* **Category Navigation Ribbon:** A horizontal navigation strip displaying primary tool categories: *All Categories (Yellow Button)*, *Power Tools*, *Hand Tools*, *Equipment*, *Safety*, *Industrial Supplies*, *Measuring Tools*, *Storage & Material Handling*, and a *Deals (HOT)* badge.
+* **Hero Banner Section:**
+  * Full-width dark background with high-contrast industrial imagery (power drills, toolboxes, gears).
+  * Bold Headline: "YOUR TRUSTED PARTNER IN TOOLS & EQUIPMENT - SUPPLYING EXCELLENCE WORLDWIDE".
+  * Trust Badges Ribbon below headline: *Premium Quality (Trusted Products)*, *Wide Range (1000+ Products)*, *Global Supply (Worldwide Delivery)*, *Best Prices (Competitive Rates)*.
+* **Featured Category Grid:** Display 8 dark, rounded, high-contrast cards: *Power Tools*, *Hand Tools*, *Equipment*, *Safety*, *Abrasives*, *Measuring Tools*, *Storage & Handling*, and *Industrial Supplies*. Each card displays a tool illustration and a yellow "View All >" link leading to that category's listing page.
+* **Promotional & Trust Banners:**
+  * Section displaying 3 informational blocks: *Bulk Orders (Special Discounts)*, *Fast & Reliable Delivery (On Time, Every Time)*, *Customer Support (Mon-Sat 9AM-6PM)*.
+  * A large bright Safety Yellow banner on the right: *"DOWNLOAD CATALOG - Explore Our Complete Range"* with a download arrow icon.
+* **Global Brand Strip:** A centered header ("GLOBAL BRANDS WE SUPPLY") followed by a responsive grid/carousel of manufacturer logos: *DeWALT*, *BOSCH*, *Makita*, *STANLEY*, *Milwaukee*, *RIDGID*, *HILTI*, *3M*, and an "And More" button.
+* **Bottom Trust Footer:** Displays 4 badges: *100% Authentic Products*, *Competitive Prices*, *Secure Payments*, and *Worldwide Shipping*, leading into the comprehensive legal/link footer.
+
+### 2. Category & Product Listing Page (PLP)
+* **Sidebar Filters:** Allow real-time filtering without reloading the page via AJAX/state by: *Brand*, *Price Range* (slider/min-max inputs), *Availability Status*, and *Category-specific tags*.
+* **Sorting Bar:** Options for *Featured*, *Newest*, *Lowest Price*, *Highest Price*, *Alphabetical (A-Z)*, and *Best Selling*.
+* **Product Cards:** Display product main thumbnail, Title, SKU/Product Code, Brand badge, Availability status tag, Unit Price, and a "View Details" button. Implement image lazy-loading and subtle hover elevation.
+* **Empty States:** If a category or filter returns zero results, display a professional illustration with a message ("No tools found matching your criteria") and a button to reset filters.
+
+### 3. Product Details Page (PDP)
+* **Gallery Module:** Large main image showcase supporting high-resolution zoom on hover, accompanied by a clickable thumbnail carousel below.
+* **Product Data:** Bold Product Title, SKU/Part Number, Brand badge, Category/Subcategory breadcrumbs, Availability Status badge, and Retail Selling Price.
+* **Variant Selector:** If the tool supports variants (e.g., different voltages: 110V vs 220V, or sizing: 10mm vs 15mm), render interactive selection buttons that dynamically update the price and SKU.
+* **Action Area:** Place a quantity selector with `+` and `-` buttons directly beside a prominent Safety Yellow "Add to Cart" button. Clicking adds the item to global cart state and triggers a brief success toast notification.
+* **Information Tabs:**
+  * *Detailed Description:* Rich text explanation of tool applications and features.
+  * *Technical Specifications Table:* A clean, bordered table rendering unlimited key-value pairs (e.g., Power Input, No Load Speed, Chuck Capacity, Weight).
+  * *Downloads:* Optional PDF manual download links.
+* **Related Products:** Responsive carousel showing 4 related or "Frequently Bought Together" tools from the same category.
+
+### 4. Shopping Cart & Dynamic Checkout
+* **Shopping Cart Page:** List each added item with its thumbnail, Name, Variant, Unit Price, interactive `+ / -` quantity selector, item subtotal, and a trash/remove icon. Changes must instantly recalculate the Order Subtotal without reloading. If cart is empty, render a branded illustration and a "Browse Categories" CTA.
+* **Checkout Page:** Support both Guest Checkout and Registered Customer Account checkout.
+  * *Form Fields:* Full Name (Required), Phone Number (Required, with validation), Alternate Phone (Optional), Email (Optional for guests, required for accounts), Complete Delivery Address, City, Location/Province, and Delivery Notes.
+  * *Dynamic Delivery Fee Calculation:* As the user selects/types their City/Location, dynamically fetch and apply the matching delivery fee rule from the database.
+  * *Order Summary Box:* Sticky sidebar displaying Item Subtotal + Delivery Fee + Additional Charges = Grand Total.
+* **Order Confirmation Page:** After placing order, display a confirmation screen with the generated unique Order ID (`ORD-XXXXX`), summary of purchased tools, and an explanation banner: *"Thank you for your order! A company sales representative will contact you via phone shortly to verify your order details before dispatch."*
+
+---
+
+## SECTION 3: CODE-FREE ADMIN CONTROL PANEL & MANAGEMENT MODULES
+Protect all `/admin` routes with strict authentication, password hashing (`bcrypt`), and session/JWT authorization. Unauthenticated users must be immediately redirected.
+
+### 1. Dashboard Overview:
+* Display real-time summary metric cards: *Total Products*, *Total Categories*, *Total Brands*, *Total Orders*, *Pending Phone Confirmations (Highlighted in Yellow/Red)*, *Featured Products*, *Featured Categories*, and *Products marked On Request*.
+* Below cards, render a quick-action table of the 10 most recent orders and a low-stock/unavailable product alert notification area.
+
+### 2. Product & Supplier Catalogue Management:
+* **Add/Edit Product Form:** Input fields for Name, SKU, Brand (dropdown), Category/Subcategory (dropdowns), Variants, Retail Selling Price, Detailed Description (Rich Text), Specifications Table (Key-Value pair generator), Tags, Featured Toggle, Related Products selector, and Image Gallery uploader.
+* **Availability Status Selector:** Dropdown supporting exactly 5 states: *Available*, *On Request*, *Coming Soon*, *Temporarily Unavailable*, and *Discontinued*.
+* **Private Supplier Fields (Admin-Only Visibility):** Input fields for Supplier Name, Supplier Contact Number, Supplier Code, Wholesale Purchase Price, and Internal Admin Notes. *Mandatory Guardrail:* These fields must be excluded from frontend client API queries.
+* **Publishing Controls:** Actions to save as *Draft*, *Publish* to website, *Disable* (soft hide without deletion), or *Archive*.
+
+### 3. Order Management Module:
+* Searchable table displaying: Order ID, Customer Name, Phone Number, City, Order Date, Total Amount, and Status badge.
+* **Detail View:** Clicking an order opens a full breakdown showing customer details, delivery address, ordered items with quantities/prices, delivery fees, customer notes, and private supplier fulfillment notes.
+* **Status Workflow Control:** Dropdown to change order status: *Pending Confirmation* -> *Confirmed* -> *Cancelled* -> *Completed*. All changes must be logged in an audit table.
+
+### 4. CMS, Banners & Company Settings:
+* **Banner & Media Manager:** Interface to upload, delete, reorder, and set destination URLs for Homepage Hero Banners and Promotional Banners. Support separate image uploads for Desktop and Mobile viewports.
+* **Category & Brand Manager:** CRUD interfaces to create unlimited categories/subcategories with banners/icons, and brands with logos.
+* **Company Settings Page:** Central form to configure without editing code: Company Logo, Phone Numbers, Email Addresses, Physical Address, Google Maps embed URL, Social Media links, Footer Text, Homepage Top Announcement Bar text, and Delivery Fee Rules (City/Location matching rules with dollar/rupee fee amounts).
+
+---
+
+## SECTION 4: TECHNICAL ARCHITECTURE & DATABASE SCHEMA
+Build a scalable, normalized relational database (PostgreSQL or MySQL). Ensure strict integrity with primary keys, foreign keys, timestamps (`created_at`, `updated_at`), soft-delete support (`deleted_at`), and indexes on frequently queried columns (`sku`, `name`, `brand_id`, `category_id`, `phone`).
+
+### 1. Exactly 22 Required Database Tables:
+1. `Users` (Customer authentication & profiles: id, name, email, password_hash, phone, created_at)
+2. `Admins` (Admin users & role permissions: id, name, email, password_hash, role, created_at)
+3. `Categories` (id, name, slug, image_url, banner_url, description, display_order, is_featured, is_active)
+4. `Subcategories` (id, category_id [FK], name, slug, image_url, is_active)
+5. `Brands` (id, name, slug, logo_url, description, is_active)
+6. `Products` (id, sku, name, slug, brand_id [FK], category_id [FK], subcategory_id [FK], selling_price, availability_status, description, main_image_url, is_featured, is_published, is_disabled, created_at)
+7. `ProductVariants` (id, product_id [FK], variant_name, sku_modifier, price_modifier, is_active)
+8. `ProductSpecifications` (id, product_id [FK], spec_key, spec_value, display_order)
+9. `ProductImages` (id, product_id [FK], image_url, display_order)
+10. `ProductTags` (id, product_id [FK], tag_name)
+11. `RelatedProducts` (id, product_id [FK], related_product_id [FK])
+12. `Cart` (id, user_id [FK, nullable for guest], session_token, created_at, updated_at)
+13. `CartItems` (id, cart_id [FK], product_id [FK], variant_id [FK, nullable], quantity)
+14. `Orders` (id, order_number [ORD-XXXXX], user_id [FK, nullable], customer_name, phone, alt_phone, email, complete_address, city, location, delivery_notes, subtotal_amount, delivery_charge, additional_charge, grand_total, confirmation_status, admin_notes, created_at)
+15. `OrderItems` (id, order_id [FK], product_id [FK], variant_id [FK, nullable], product_name, sku, quantity, unit_price, total_price)
+16. `DeliveryRules` (id, city_or_location_name, fee_amount, is_active)
+17. `CompanySettings` (id, setting_key, setting_value)
+18. `HomepageBanners` (id, desktop_image_url, mobile_image_url, title, subtitle, link_url, display_order, is_active)
+19. `Customers` (id, user_id [FK, nullable], full_name, phone, email, total_orders, created_at)
+20. `SupplierInformation` **(STRICTLY PRIVATE ADMIN TABLE):** (id, product_id [FK], supplier_name, supplier_contact, supplier_code, purchase_price, internal_notes)
+21. `ExcelExportLog` (id, order_id [FK], exported_at, file_path, status)
+22. `ActivityLog` (id, admin_id [FK, nullable], action_type, description, ip_address, created_at)
+
+### 2. Backend Separation of Concerns (Folder Structure):
+Do not mix UI with business logic. Implement the backend with strict architectural layers:
+* `/controllers` – Intercept HTTP requests, validate body/params, call services, and return standardized JSON responses.
+* `/services` – Core business logic (e.g., `OrderService` handles database creation AND invokes `ExcelService`).
+* `/repositories` – Raw SQL/ORM database query abstraction layer.
+* `/validators` – Server-side validation schema (e.g., Zod, Joi, or express-validator) enforcing required fields and phone number formats.
+* `/middlewares` – Authentication, role authorization, CORS, CSRF, and error logging.
+* `/routes` – Separate `/api/v1/public/*` (customer store) from `/api/v1/admin/*` (protected dashboard).
+
+### 3. Automated Excel Workbook Appending Architecture:
+Implement an automated server-side file management utility using a robust library (such as `exceljs` or `xlsx`):
+* **File Location:** Maintain a master workbook file at `/exports/orders_master.xlsx`.
+* **Headers:** Row 1 must contain exact columns: `Order ID` | `Date/Time` | `Customer Name` | `Phone Number` | `Alternate Phone` | `Complete Address` | `City` | `Ordered Products (Formatted string with quantities)` | `Total Items` | `Subtotal` | `Delivery Charges` | `Additional Charges` | `Grand Total` | `Confirmation Status` | `Admin Notes`.
+* **Append Mechanics:** When `OrderService.createOrder()` succeeds, read the workbook, locate the last populated row, append the new order as the next row, apply clean cell formatting, and save the workbook back to disk. Catch file-lock errors gracefully without failing the database transaction.
+
+---
+
+## SECTION 5: PHASED EXECUTION ROADMAP FOR THE AI AGENT
+Execute the build sequentially in the following phases. Do not skip phases or generate stub/mock code; build production-ready implementations for every feature.
+
+### PHASE 1: Database & Backend Core Foundation
+1. Initialize the project structure (Node.js/Express or Next.js API backend) with clean folder architecture.
+2. Create and execute database migrations for all 22 normalized schema tables.
+3. Build repository models and CRUD services for Categories, Subcategories, Brands, and Products.
+4. Implement secure authentication middleware (`bcrypt` password hashing, JWT/session management, admin role authorization). Ensure `SupplierInformation` is permanently locked behind admin middleware.
+
+### PHASE 2: Order Engine & Excel Automation
+1. Implement the dynamic `DeliveryRules` evaluation service.
+2. Build `OrderService` supporting transactional order placement for guests and registered users.
+3. Develop `ExcelService` and integrate it into the order creation pipeline to automatically append new order rows to `/exports/orders_master.xlsx`.
+4. Expose RESTful endpoints for Cart, Checkout, Live Search (with debounced query matching), and Order Confirmation.
+
+### PHASE 3: Frontend Theme & Design System Replication
+1. Inspect `image_d1c33f.jpg` and establish CSS variables / Tailwind config for Industrial Black, Safety Yellow, Clean White, and Supporting Grays.
+2. Build reusable UI components: Buttons (yellow primary, dark secondary), Industrial Product Cards (with hover zoom and badges), Form Inputs, Quantity Selectors (`+ / -`), and Toast Alerts.
+3. [cite_start]Construct the responsive Header (with live search autocomplete dropdown and mobile hamburger drawer) and Top Announcement Bar[cite: 67, 73, 230, 231, 233, 234, 257, 258, 259, 260, 287, 288, 289, 290, 291, 305, 306, 307, 308, 330, 383, 387, 388, 389, 469, 470, 472, 473, 475, 476, 478, 479, 481, 482, 623, 625, 627, 629, 631, 632, 903, 911, 913, 936].
+
+### PHASE 4: Customer Storefront Implementation
+1. Assemble the **Homepage** matching all 7 sections of the reference image exactly (Hero, Category Ribbon, 8 Featured Category Cards, Promotional Banners, Brand Strip, Trust Footer).
+2. Build the **Category & Product Listing Pages** with dynamic sidebar filters (Brand, Price, Availability) and instant sorting.
+3. Construct the **Product Details Page** with multi-image gallery zoom, variant buttons, technical specification table, quantity controls, and related products carousel.
+4. [cite_start]Build the interactive **Shopping Cart** and **Checkout Page**, ensuring live delivery fee calculation and order submission routing to the confirmation page[cite: 18, 19, 53, 75, 76, 78, 79, 80, 81, 83, 332, 333, 334, 335, 359, 360, 518, 519, 521, 523, 524, 526, 528, 529, 531, 533, 534, 536, 539, 540, 543, 544, 546, 547, 549, 550, 553, 555, 556, 558, 559, 561, 562, 564, 566, 567, 568, 569, 570, 595, 600, 605, 610, 615, 866, 867, 868, 901, 902, 905, 920, 921, 922, 923, 930, 933].
+
+### PHASE 5: Code-Free Admin Control Panel
+1. Build the Admin Dashboard with real-time summary metric cards and low-stock alerts.
+2. Implement the Product Management CRUD interface with private supplier data fields, specifications table builder, and availability status toggles.
+3. Build the Order Management Module allowing admins to view full customer details, update status from *Pending Confirmation* to *Confirmed*, and manually download filtered Excel reports.
+4. [cite_start]Implement the CMS & Company Settings module to manage Homepage Banners, Category icons, Brand logos, and dynamic Delivery Rules without touching source code[cite: 7, 16, 19, 42, 43, 70, 81, 85, 264, 266, 268, 270, 299, 300, 301, 302, 303, 310, 312, 314, 316, 334, 345, 346, 347, 362, 364, 401, 403, 405, 407, 505, 508, 510, 512, 514, 554, 557, 560, 563, 742, 743, 744, 746, 748, 749, 750, 751, 752, 753, 754, 755, 756, 758, 759, 760, 761, 762, 765, 766, 767, 768, 769, 817, 818, 820, 822, 824, 928, 929, 930, 931].
+
+---
+
+## BEGIN EXECUTION
+Analyze the provided reference image (`image_d1c33f.jpg`) now. Initialize the codebase following Phase 1 and build out the complete full-stack industrial e-commerce platform sequentially through Phase 5.

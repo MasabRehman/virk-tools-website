@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-industrial-black text-white font-sans antialiased selection:bg-safety-yellow selection:text-black;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+@layer components {
+  /* Reusable button styles */
+  .btn-primary {
+    @apply bg-safety-yellow text-black font-bold uppercase tracking-wider py-3 px-6 rounded transition-all duration-200 hover:bg-safety-yellow-hover hover:shadow-lg active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply bg-industrial-dark text-white border border-border-gray font-semibold uppercase tracking-wider py-3 px-6 rounded transition-all duration-200 hover:bg-border-gray hover:shadow-lg active:scale-95;
+  }
+  
+  /* Shared card style */
+  .card-industrial {
+    @apply bg-industrial-dark border border-border-gray rounded-lg overflow-hidden shadow-industrial transition-all duration-300 hover:border-text-gray hover:-translate-y-1 hover:shadow-xl;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0E14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFC000;
+}
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
