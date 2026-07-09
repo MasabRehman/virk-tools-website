@@ -192,6 +192,38 @@ const Header = () => {
           </div>
 
         </div>
+
+        {/* Mobile Search Bar */}
+        <div className="md:hidden container mx-auto px-4 mt-4">
+          <form onSubmit={handleSearch} className="flex w-full bg-white rounded shadow-sm relative z-50">
+            <div className="relative flex-grow">
+              <input 
+                type="text" 
+                placeholder="Search for tools, equipment..." 
+                className="w-full px-4 py-2 text-black text-sm focus:outline-none rounded-l"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            
+            <div className="w-px bg-gray-300 my-2"></div>
+
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setDropdownOpen(o => !o)}
+                className="flex items-center px-2 h-full text-black hover:bg-gray-100 transition-colors bg-white font-medium text-xs whitespace-nowrap"
+              >
+                All Categories
+                <ChevronDown size={14} className="ml-1 text-gray-500" />
+              </button>
+            </div>
+
+            <button type="submit" className="bg-safety-yellow px-4 hover:bg-safety-yellow-hover transition-colors flex items-center justify-center flex-shrink-0 rounded-r">
+              <Search size={18} className="text-black" />
+            </button>
+          </form>
+        </div>
       </header>
 
       {/* Mobile Drawer Menu */}

@@ -99,7 +99,7 @@ const Home = () => {
             <img src="/hero_image.png" alt="Industrial Tools" className="w-full max-w-sm object-contain drop-shadow-2xl" />
           </div>
 
-          <div className="lg:w-[65%] xl:w-[60%] flex flex-col lg:block items-center text-center lg:text-left">
+          <div className="lg:w-[65%] xl:w-[60%] flex flex-col lg:block items-start text-left">
             <p className="text-gray-300 tracking-[0.2em] text-xs font-semibold uppercase mb-4">Quality Tools. Reliable Equipment.</p>
             <h1 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight leading-none mb-1">
               Your Trusted Partner In
@@ -111,8 +111,13 @@ const Home = () => {
               SUPPLYING EXCELLENCE WORLDWIDE
             </p>
 
+            {/* Mobile Browse Categories Heading */}
+            <h2 className="lg:hidden font-heading font-bold text-2xl uppercase tracking-widest text-white mt-12 mb-4">
+              Browse Categories
+            </h2>
+
             {/* Hero Trust Badges */}
-            <div className="grid grid-cols-2 gap-x-4 gap-y-6 mt-12 w-full max-w-md lg:max-w-none lg:flex lg:flex-wrap lg:items-center text-left">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-6 lg:mt-12 w-full max-w-md lg:max-w-none lg:flex lg:flex-wrap lg:items-center text-left">
               
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 rounded-full border border-safety-yellow flex items-center justify-center text-safety-yellow flex-shrink-0">
@@ -167,7 +172,7 @@ const Home = () => {
       {/* Featured Categories Grid */}
       <div className="container mx-auto px-4 pt-10 pb-6">
         {/* Section header with catalog download */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="hidden lg:flex items-center justify-between mb-6">
           <h2 className="font-heading font-bold text-2xl uppercase tracking-widest text-white">
             Browse Categories
           </h2>

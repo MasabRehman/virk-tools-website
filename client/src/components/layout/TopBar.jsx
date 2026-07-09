@@ -3,7 +3,7 @@ import { Phone, Mail, Globe, Facebook, Instagram, Linkedin } from 'lucide-react'
 
 const TopBar = () => {
   return (
-    <div className="bg-black text-gray-400 text-xs py-2 border-b border-border-gray">
+    <div className="hidden lg:block bg-black text-gray-400 text-xs py-2 border-b border-border-gray">
       <div className="container mx-auto px-4 flex flex-col sm:flex-row justify-between items-center">
         {/* Left Side: Contact Info */}
         <div className="flex items-center space-x-6 mb-2 sm:mb-0">
