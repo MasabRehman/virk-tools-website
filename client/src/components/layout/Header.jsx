@@ -243,6 +243,14 @@ const Header = () => {
                 <X size={28} />
               </button>
             </div>
+
+            {/* Admin Login at Top of Menu */}
+            <div className="p-4 border-b border-border-gray bg-industrial-dark">
+              <Link to="/admin/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center text-white hover:text-safety-yellow transition-colors font-bold">
+                <User size={20} className="mr-3 text-safety-yellow" />
+                <span>Admin Portal Login</span>
+              </Link>
+            </div>
             
             <div className="p-4 border-b border-border-gray">
               <form onSubmit={handleSearch} className="flex flex-col w-full">
@@ -278,11 +286,8 @@ const Header = () => {
               ))}
             </div>
 
-            <div className="mt-auto border-t border-border-gray p-4 flex flex-col space-y-4">
-              <Link to="/admin/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center text-white hover:text-safety-yellow transition-colors">
-                <User size={20} className="mr-3" />
-                <span>Admin Login</span>
-              </Link>
+            <div className="mt-auto p-4 flex flex-col space-y-4">
+              {/* Other footer links could go here if needed in the future */}
             </div>
           </div>
         </div>
