@@ -36,12 +36,12 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div className="mb-8 flex items-start justify-between">
+      <div className="mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <h1 className="font-heading font-bold text-3xl text-white">Dashboard Overview</h1>
           <p className="text-gray-400 mt-1">Welcome back, {adminUser?.first_name}. Here's what's happening today.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full md:w-auto">
           {cleared && (
             <button
               onClick={() => { setCleared(false); }}

@@ -273,12 +273,12 @@ const Products = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
           <h1 className="font-heading font-bold text-3xl text-white">Inventory Management</h1>
           <p className="text-gray-400 mt-1">Manage catalog and strictly isolated supplier data.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full md:w-auto">
           <a
             href="https://virk-tools-website.onrender.com/api/v1/catalog/download"
             target="_blank"
@@ -297,8 +297,8 @@ const Products = () => {
       </div>
 
       <div className="bg-industrial-dark border border-border-gray rounded-lg overflow-hidden">
-        <div className="p-4 border-b border-border-gray flex justify-between items-center">
-          <div className="relative w-64">
+        <div className="p-4 border-b border-border-gray flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="relative w-full md:w-64">
             <input 
               type="text" 
               placeholder="Search products..." 
