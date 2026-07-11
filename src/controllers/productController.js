@@ -18,6 +18,8 @@ const extractFilters = (query) => {
   return filters;
 };
 
+const cache = require('../utils/cache');
+
 // ─── Public Methods ──────────────────────────────────────────────
 
 /**
@@ -78,7 +80,14 @@ const getBySlug = async (req, res, next) => {
 const getFeatured = async (req, res, next) => {
   try {
     const limit = parseInt(req.query.limit, 10) || 8;
-    const products = await productService.getFeaturedProducts(limit);
+    
+    const cacheKey = `products_featured_${limit}`;
+    let products = cache.get(cacheKey);
+
+    if (!products) {
+      products = await productService.getFeaturedProducts(limit);
+      cache.set(cacheKey, products, 300); // cache for 5 minutes
+    }
 
     return res.status(200).json({
       success: true,

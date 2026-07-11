@@ -25,6 +25,16 @@ async function findByCategoryId(categoryId) {
   return rows;
 }
 
+async function findActive() {
+  const sql = `
+    SELECT * FROM subcategories
+    WHERE is_active = TRUE AND deleted_at IS NULL
+    ORDER BY name ASC
+  `;
+  const [rows] = await query(sql);
+  return rows;
+}
+
 async function findById(id) {
   const sql = `
     SELECT * FROM subcategories
@@ -88,6 +98,7 @@ async function softDelete(id) {
 module.exports = {
   findAll,
   findByCategoryId,
+  findActive,
   findById,
   findBySlug,
   create,

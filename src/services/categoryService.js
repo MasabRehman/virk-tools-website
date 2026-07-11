@@ -37,18 +37,27 @@ async function getAllCategories() {
  */
 async function getActiveCategories() {
   try {
-    const categories = await categoryRepository.findActive();
+    const [categories, allSubcategories] = await Promise.all([
+      categoryRepository.findActive(),
+      subcategoryRepository.findActive()
+    ]);
 
-    // Fetch active subcategories for each category
-    const categoriesWithSubcategories = await Promise.all(
-      categories.map(async (category) => {
-        const subcategories = await subcategoryRepository.findByCategoryId(category.id);
-        return {
-          ...category,
-          subcategories,
-        };
-      })
-    );
+    // Group subcategories by category_id
+    const subcategoriesByCatId = {};
+    for (const sub of allSubcategories) {
+      if (!subcategoriesByCatId[sub.category_id]) {
+        subcategoriesByCatId[sub.category_id] = [];
+      }
+      subcategoriesByCatId[sub.category_id].push(sub);
+    }
+
+    // Map subcategories to their respective categories
+    const categoriesWithSubcategories = categories.map((category) => {
+      return {
+        ...category,
+        subcategories: subcategoriesByCatId[category.id] || [],
+      };
+    });
 
     return categoriesWithSubcategories;
   } catch (error) {

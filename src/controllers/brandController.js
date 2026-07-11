@@ -1,4 +1,5 @@
 const brandService = require('../services/brandService');
+const cache = require('../utils/cache');
 
 // ─── Public Methods ──────────────────────────────────────────────
 
@@ -7,7 +8,13 @@ const brandService = require('../services/brandService');
  */
 const getAll = async (req, res, next) => {
   try {
-    const brands = await brandService.getActiveBrands();
+    const cacheKey = 'brands_active';
+    let brands = cache.get(cacheKey);
+
+    if (!brands) {
+      brands = await brandService.getActiveBrands();
+      cache.set(cacheKey, brands, 300); // cache for 5 minutes
+    }
 
     return res.status(200).json({
       success: true,

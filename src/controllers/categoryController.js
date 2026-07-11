@@ -1,4 +1,5 @@
 const categoryService = require('../services/categoryService');
+const cache = require('../utils/cache');
 
 // ─── Public Methods ──────────────────────────────────────────────
 
@@ -7,7 +8,13 @@ const categoryService = require('../services/categoryService');
  */
 const getAll = async (req, res, next) => {
   try {
-    const categories = await categoryService.getActiveCategories();
+    const cacheKey = 'categories_active';
+    let categories = cache.get(cacheKey);
+
+    if (!categories) {
+      categories = await categoryService.getActiveCategories();
+      cache.set(cacheKey, categories, 300); // cache for 5 minutes
+    }
 
     return res.status(200).json({
       success: true,
@@ -24,7 +31,13 @@ const getAll = async (req, res, next) => {
  */
 const getFeatured = async (req, res, next) => {
   try {
-    const categories = await categoryService.getFeaturedCategories();
+    const cacheKey = 'categories_featured';
+    let categories = cache.get(cacheKey);
+
+    if (!categories) {
+      categories = await categoryService.getFeaturedCategories();
+      cache.set(cacheKey, categories, 300); // cache for 5 minutes
+    }
 
     return res.status(200).json({
       success: true,

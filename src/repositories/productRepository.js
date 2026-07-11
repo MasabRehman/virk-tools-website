@@ -92,10 +92,11 @@ async function findAll(filters = {}, sort = 'newest', page = 1, limit = 20) {
       b.name AS brand_name,
       b.logo_url AS brand_logo,
       c.name AS category_name,
-      (SELECT sc.name FROM subcategories sc WHERE sc.id = p.subcategory_id LIMIT 1) AS subcategory_name
+      sc.name AS subcategory_name
     FROM products p
     LEFT JOIN brands b ON p.brand_id = b.id
     LEFT JOIN categories c ON p.category_id = c.id
+    LEFT JOIN subcategories sc ON p.subcategory_id = sc.id
     WHERE ${whereClauses.join(' AND ')}
     ORDER BY ${orderBy}
     LIMIT ? OFFSET ?
@@ -117,10 +118,11 @@ async function findAllAdmin(filters = {}, sort = 'newest', page = 1, limit = 20)
       b.name AS brand_name,
       b.logo_url AS brand_logo,
       c.name AS category_name,
-      (SELECT sc.name FROM subcategories sc WHERE sc.id = p.subcategory_id LIMIT 1) AS subcategory_name
+      sc.name AS subcategory_name
     FROM products p
     LEFT JOIN brands b ON p.brand_id = b.id
     LEFT JOIN categories c ON p.category_id = c.id
+    LEFT JOIN subcategories sc ON p.subcategory_id = sc.id
     WHERE ${whereClauses.join(' AND ')}
     ORDER BY ${orderBy}
     LIMIT ? OFFSET ?
@@ -138,10 +140,11 @@ async function findById(id) {
       b.name AS brand_name,
       b.logo_url AS brand_logo,
       c.name AS category_name,
-      (SELECT sc.name FROM subcategories sc WHERE sc.id = p.subcategory_id LIMIT 1) AS subcategory_name
+      sc.name AS subcategory_name
     FROM products p
     LEFT JOIN brands b ON p.brand_id = b.id
     LEFT JOIN categories c ON p.category_id = c.id
+    LEFT JOIN subcategories sc ON p.subcategory_id = sc.id
     WHERE p.id = ? AND p.deleted_at IS NULL
   `;
   const [rows] = await query(sql, [id]);
@@ -155,10 +158,11 @@ async function findByIdAdmin(id) {
       b.name AS brand_name,
       b.logo_url AS brand_logo,
       c.name AS category_name,
-      (SELECT sc.name FROM subcategories sc WHERE sc.id = p.subcategory_id LIMIT 1) AS subcategory_name
+      sc.name AS subcategory_name
     FROM products p
     LEFT JOIN brands b ON p.brand_id = b.id
     LEFT JOIN categories c ON p.category_id = c.id
+    LEFT JOIN subcategories sc ON p.subcategory_id = sc.id
     WHERE p.id = ? AND p.deleted_at IS NULL
   `;
   const [rows] = await query(sql, [id]);
