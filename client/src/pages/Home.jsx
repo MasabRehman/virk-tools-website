@@ -193,7 +193,7 @@ const Home = () => {
           </a>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-6">
+        <div className="grid grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 lg:gap-6">
           {categories.map((cat) => (
             <Link key={cat.id} to={`/?category=${cat.id}`}>
               <ProductCard 
