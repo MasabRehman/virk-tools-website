@@ -54,9 +54,10 @@ function buildFilterClauses(filters = {}, isAdmin = false) {
     params.push(filters.price_max);
   }
   if (filters.search) {
-    whereClauses.push('(p.name LIKE ? OR p.sku LIKE ?)');
-    const term = `%${filters.search}%`;
-    params.push(term, term);
+    const term = filters.search;
+    const likeTerm = `%${term}%`;
+    whereClauses.push('(p.name ILIKE ? OR p.sku ILIKE ? OR similarity(p.name, ?) > 0.25)');
+    params.push(likeTerm, likeTerm, term);
   }
 
   return { whereClauses, params };

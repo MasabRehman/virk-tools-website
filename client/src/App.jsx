@@ -17,6 +17,7 @@ import Dashboard from './admin/Dashboard';
 import Products from './admin/Products';
 import Categories from './admin/Categories';
 import Orders from './admin/Orders';
+import Settings from './admin/Settings';
 
 function App() {
   return (
@@ -42,8 +43,7 @@ function App() {
             <Route path="products" element={<Products />} />
             <Route path="categories" element={<Categories />} />
             <Route path="orders" element={<Orders />} />
-            {/* Fallback for /admin/settings for now */}
-            <Route path="settings" element={<div className="text-white text-2xl font-bold">Settings Panel Coming Soon</div>} />
+              <Route path="settings" element={<Settings />} />
           </Route>
         </Routes>
       </CartProvider>

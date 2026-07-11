@@ -71,6 +71,28 @@ const Header = () => {
     navigate(`/?${params.toString()}`);
   };
 
+  const SuggestionsDropdown = () => {
+    if (!showSuggestions || suggestions.length === 0) return null;
+    return (
+      <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded shadow-xl z-50 max-h-72 overflow-y-auto">
+        {suggestions.map(product => (
+          <Link
+            key={product.id}
+            to={`/product/${product.slug}`}
+            onClick={() => { setShowSuggestions(false); setMobileMenuOpen(false); }}
+            className="flex items-center px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-0 transition-colors"
+          >
+            <img src={product.main_image_url || "https://placehold.co/40x40"} alt={product.name} className="w-10 h-10 object-cover rounded border border-gray-200 mr-3" />
+            <div className="flex flex-col text-left">
+              <span className="text-sm font-semibold text-black line-clamp-1">{product.name}</span>
+              <span className="text-xs text-gray-500">Rs. {Number(product.selling_price).toLocaleString()}</span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <>
       <header className="bg-industrial-black py-4 md:py-6 border-b border-border-gray sticky top-0 z-40">
@@ -106,24 +128,7 @@ const Header = () => {
                 />
                 
                 {/* Suggestions Dropdown */}
-                {showSuggestions && suggestions.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded shadow-xl z-50 max-h-72 overflow-y-auto">
-                    {suggestions.map(product => (
-                      <Link
-                        key={product.id}
-                        to={`/product/${product.slug}`}
-                        onClick={() => setShowSuggestions(false)}
-                        className="flex items-center px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-0 transition-colors"
-                      >
-                        <img src={product.main_image_url || "https://placehold.co/40x40"} alt={product.name} className="w-10 h-10 object-cover rounded border border-gray-200 mr-3" />
-                        <div className="flex flex-col">
-                          <span className="text-sm font-semibold text-black line-clamp-1">{product.name}</span>
-                          <span className="text-xs text-gray-500">Rs. {Number(product.selling_price).toLocaleString()}</span>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                )}
+                <SuggestionsDropdown />
               </div>
               
               <div className="w-px bg-gray-300 my-2"></div>
@@ -202,8 +207,13 @@ const Header = () => {
                 placeholder="Search for tools, equipment..." 
                 className="w-full px-4 py-2 text-black text-sm focus:outline-none rounded-l"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowSuggestions(true);
+                }}
+                onFocus={() => setShowSuggestions(true)}
               />
+              <SuggestionsDropdown />
             </div>
             
             <div className="w-px bg-gray-300 my-2"></div>
@@ -246,13 +256,20 @@ const Header = () => {
             
             <div className="flex-shrink-0 p-4 border-b border-border-gray">
               <form onSubmit={handleSearch} className="flex flex-col w-full">
-                <input 
-                  type="text" 
-                  placeholder="Search products..." 
-                  className="w-full px-4 py-3 mb-2 text-black focus:outline-none rounded"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+                <div className="relative w-full">
+                  <input 
+                    type="text" 
+                    placeholder="Search products..." 
+                    className="w-full px-4 py-3 mb-2 text-black focus:outline-none rounded"
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setShowSuggestions(true);
+                    }}
+                    onFocus={() => setShowSuggestions(true)}
+                  />
+                  <SuggestionsDropdown />
+                </div>
                 <button type="submit" className="w-full bg-safety-yellow px-4 py-3 rounded text-black font-bold uppercase flex justify-center items-center">
                   <Search size={20} className="mr-2" /> Search
                 </button>

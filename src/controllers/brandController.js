@@ -99,7 +99,7 @@ const getById = async (req, res, next) => {
 const create = async (req, res, next) => {
   try {
     const brand = await brandService.createBrand(req.body, req.user.id);
-
+    cache.clear();
     return res.status(201).json({
       success: true,
       message: 'Brand created successfully',
@@ -120,7 +120,7 @@ const update = async (req, res, next) => {
       req.body,
       req.user.id
     );
-
+    cache.clear();
     return res.status(200).json({
       success: true,
       message: 'Brand updated successfully',
@@ -137,7 +137,7 @@ const update = async (req, res, next) => {
 const remove = async (req, res, next) => {
   try {
     await brandService.deleteBrand(req.params.id, req.user.id);
-
+    cache.clear();
     return res.status(200).json({
       success: true,
       message: 'Brand deleted successfully',

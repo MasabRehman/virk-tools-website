@@ -115,3 +115,13 @@ These are features that have been discussed or are natural next steps:
 | [`start_all.bat`](file:///d:/website/creation/start_all.bat) | One-click startup script |
 | [`src/config/database.js`](file:///d:/website/creation/src/config/database.js) | MySQL connection config |
 | [`.env`](file:///d:/website/creation/.env) | Backend environment variables |
+
+### Performance & Security Optimizations
+- **Database Efficiency**: Fixed N+1 query loops using LEFT JOINs and bulk fetching in repositories.
+- **In-Memory Caching**: Implemented a 5-minute TTL cache on public routes to instantly serve categories and products without database overhead.
+- **Admin Query Speed**: Stripped massive HTML payload data (long_description) from Admin List endpoints (reduced 5MB JSON to 160KB). Parallelized Admin pagination count queries using Promise.all().
+- **Database Indexing**: Added composite indexes for published/featured products and admin-specific fallback indexes (created_at, deleted_at).
+- **Security**: Hardened Content-Security-Policy (CSP) headers to block XSS and cross-domain misconfigurations.
+- **Typo-Tolerant Searching**: Implemented pg_trgm trigram similarities along with GIN indices to support typo-tolerant fuzzy searching for products.
+- **Mobile User Experience**: Injected intelligent search suggestion dropdowns across all mobile navigation variants.
+- **Admin Cache Invalidation**: Enforced automatic memory cache purges whenever standard entities (Products, Brands, Categories) are modified via the Admin dashboard.

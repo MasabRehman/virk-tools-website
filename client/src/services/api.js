@@ -137,8 +137,9 @@ export const api = {
     };
   },
 
-  adminGetProducts: async () => {
-    const res = await fetch(`${API_URL}/admin/products?limit=1000`, {
+  adminGetProducts: async (params = {}) => {
+    const query = new URLSearchParams(params).toString();
+    const res = await fetch(`${API_URL}/admin/products?${query}`, {
       headers: api.getAdminHeaders()
     });
     if (!res.ok) throw new Error('Failed to fetch admin products');

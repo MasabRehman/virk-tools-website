@@ -180,6 +180,7 @@ const create = async (req, res, next) => {
   try {
     const product = await productService.createProduct(req.body, req.user.id);
 
+    cache.clear(); // Clear product cache on write
     return res.status(201).json({
       success: true,
       message: 'Product created successfully',
@@ -200,7 +201,7 @@ const update = async (req, res, next) => {
       req.body,
       req.user.id
     );
-
+    cache.clear(); // Clear product cache on write
     return res.status(200).json({
       success: true,
       message: 'Product updated successfully',
@@ -218,6 +219,7 @@ const remove = async (req, res, next) => {
   try {
     await productService.deleteProduct(req.params.id, req.user.id);
 
+    cache.clear(); // Clear product cache on write
     return res.status(200).json({
       success: true,
       message: 'Product deleted successfully',

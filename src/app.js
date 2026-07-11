@@ -23,6 +23,16 @@ app.set('trust proxy', 1);
 // Helmet - Sets various HTTP security headers
 app.use(helmet({
   crossOriginResourcePolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https:", "http:"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      connectSrc: ["'self'", "http://localhost:*", "https://*"],
+    },
+  },
 }));
 
 // CORS - Cross-Origin Resource Sharing

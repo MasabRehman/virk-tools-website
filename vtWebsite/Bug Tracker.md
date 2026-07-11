@@ -38,3 +38,34 @@ tags: [bugs, fixes]
 | Issue | Notes |
 |-------|-------|
 | Windows MySQL84 service doesn't use project database | Service is configured with wrong datadir. Would need admin access to fix the service. Current workaround: use `start_all.bat` |
+
+## ?? Bug: Add to Cart Failing in Production
+**Status:** ? Fixed
+**Date:** 2026-07-09
+**Issue:** The 'Add to Cart' button worked locally but failed on the live Vercel deployment. The server logs showed no errors, but the session token was missing on subsequent requests.
+**Root Cause:** The backend (Render) and frontend (Vercel) are on different domains. Modern browsers block cross-site cookies by default. The session cookie was missing the required \SameSite=None\ and \Secure=true\ attributes.
+**Fix:** Modified \cartController.js\ and \uthController.js\ to detect if \NODE_ENV === 'production'\ and dynamically append the correct Cross-Origin cookie headers.
+
+
+## ?? Bug: Cart still failing due to strict browser tracking prevention
+**Status:** ? Fixed
+**Date:** 2026-07-09
+**Issue:** Even after adding SameSite=None and Secure=true, strict browsers (like Safari) and Incognito modes forcibly block all Cross-Site cookies to prevent tracking. Express also ignored the \Secure\ flag because it was behind Render's load balancer without \	rust proxy\ enabled.
+**Fix:** 
+1. Added \pp.set('trust proxy', 1)\ in Express so it knows it is running securely behind Render.
+2. Built a fail-proof **localStorage fallback**. The backend now returns the \session_token\ inside the JSON response body. The React frontend intercepts this, saves it in \localStorage\, and manually attaches an \X-Cart-Session\ header to all future cart requests, entirely bypassing the browser's cookie-blocking engines!
+
+
+## ?? Bug: Custom header blocked by CORS Preflight
+**Status:** ? Fixed
+**Date:** 2026-07-09
+**Issue:** The newly added \x-cart-session\ header used for the localStorage fallback triggered a CORS preflight (OPTIONS) request. The backend rejected it because the header was not explicitly listed in the \Access-Control-Allow-Headers\ CORS configuration.
+**Fix:** Added \'x-cart-session'\ to the \llowedHeaders\ array in \src/app.js\ and deployed.
+
+
+## ?? Bug: Checkout throwing 404 Not Found
+**Status:** ? Fixed
+**Date:** 2026-07-09
+**Issue:** The checkout API was returning a 404 Not Found error because the newly implemented \x-cart-session\ header was not being sent by the frontend during checkout, nor was the backend looking for it in the checkout controller.
+**Fix:** Updated \orderController.js\ to extract the session token from the custom header, and updated the frontend's \pi.js\ checkout method to append the header to the POST request.
+

@@ -125,7 +125,7 @@ const create = async (req, res, next) => {
       req.body,
       req.user.id
     );
-
+    cache.clear();
     return res.status(201).json({
       success: true,
       message: 'Category created successfully',
@@ -146,7 +146,7 @@ const update = async (req, res, next) => {
       req.body,
       req.user.id
     );
-
+    cache.clear();
     return res.status(200).json({
       success: true,
       message: 'Category updated successfully',
@@ -163,7 +163,7 @@ const update = async (req, res, next) => {
 const remove = async (req, res, next) => {
   try {
     await categoryService.deleteCategory(req.params.id, req.user.id);
-
+    cache.clear();
     return res.status(200).json({
       success: true,
       message: 'Category deleted successfully',
@@ -183,7 +183,7 @@ const createSubcategory = async (req, res, next) => {
       req.body,
       req.user.id
     );
-
+    cache.clear();
     return res.status(201).json({
       success: true,
       message: 'Subcategory created successfully',

@@ -35,6 +35,7 @@ router.use('/products', require('./public/productRoutes'));
 router.use('/cart', require('./public/cartRoutes'));
 router.use('/orders', require('./public/orderRoutes'));
 router.use('/catalog', require('./public/catalogRoutes'));
+router.use('/settings', require('./public/settingsRoutes'));
 
 // =============================================================================
 // ADMIN ROUTES (all prefixed with /admin)
@@ -44,5 +45,6 @@ router.use('/admin/brands', require('./admin/brandRoutes'));
 router.use('/admin/products', require('./admin/productRoutes'));
 router.use('/admin/orders', require('./admin/orderRoutes'));
 router.use('/admin/upload', require('./admin/uploadRoutes'));
+router.use('/admin/settings', require('./admin/settingsRoutes'));
 
 module.exports = router;

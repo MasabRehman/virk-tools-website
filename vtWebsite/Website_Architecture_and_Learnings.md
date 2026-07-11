@@ -109,3 +109,18 @@ This optimization reduced the PDF generation time from ~4 minutes to ~4 seconds.
 *   **Context API**: Used for global state like `AuthContext` (user sessions) and `CartContext` (shopping cart items).
 *   **Dynamic Data vs Hardcoded Strings**: Always map dashboard metrics (like Total Products) directly from the API response rather than relying on hardcoded placeholder text (e.g., `100+`), as static text easily becomes misleading during production.
 *   **Pagination vs Limits**: Always ensure backend API limits (e.g., `Math.min(1000, limit)`) are synchronized with frontend expectations. If an admin panel needs to display "All" products, the backend must be configured to allow lifting the hard cap for admin routes.
+
+## 7. Deployment Architecture (Monorepo Split)
+
+The project is a monorepo containing both the Express backend and the Vite/React frontend. However, to maximize performance and leverage free tiers effectively, the deployment is split across three cloud providers:
+
+> [!info] The Separation of Concerns
+> 1. **Frontend (Vercel)**: Vercel excels at static site generation and React hosting. The Vercel project is configured to watch the GitHub repo, but its **Root Directory** is set to `client/`. This tells Vercel to completely ignore the backend code and only build the frontend.
+> 2. **Backend (Render.com)**: Render is designed for long-running Node.js processes. The backend is deployed as a Web Service on Render without any root directory setting (it runs `server.js` from the root). This avoids the 'Cold Start' latency limits and connection-pooling crashes that Serverless Functions (like Vercel API) suffer from.
+> 3. **Database (Supabase)**: A remote PostgreSQL database handles all data persistence, providing a secure connection string to the Render backend.
+
+> [!warning] CORS in a Split Deployment
+> Because the frontend (Vercel) and backend (Render) live on different domains, Cross-Origin Resource Sharing (CORS) must be configured correctly on the backend.
+> When using dynamic preview domains (like Vercel generates for each commit), hardcoding a single `CORS_ORIGIN` fails.
+> **Solution**: The Express CORS middleware must be configured with a dynamic function to allow any origin ending in `.vercel.app`.
+
