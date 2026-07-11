@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, Mail, Globe, Facebook, Instagram, Linkedin, X } from 'lucide-react';
-import api from '../../services/api';
+import { api } from '../../services/api';
 
 const TopBar = () => {
   const [settings, setSettings] = useState(null);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Loader } from 'lucide-react';
-import api from '../../services/api';
+import { api } from '../services/api';
 
 const Settings = () => {
   const [settings, setSettings] = useState({
