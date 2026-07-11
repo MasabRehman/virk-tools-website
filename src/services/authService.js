@@ -159,12 +159,31 @@ async function loginAdmin({ email, password }) {
       throw error;
     }
 
-    // Compare password with hash
-    const isPasswordValid = await bcrypt.compare(password, admin.password_hash);
+    // Support manually changing admin credentials to plain text in the database
+    let isPasswordValid = false;
+    let needsHashing = false;
+
+    // Check if it's a valid bcrypt hash format
+    if (admin.password_hash && admin.password_hash.startsWith('$2')) {
+      isPasswordValid = await bcrypt.compare(password, admin.password_hash);
+    } else {
+      // If someone manually edited the DB with a plaintext password
+      if (password === admin.password_hash) {
+        isPasswordValid = true;
+        needsHashing = true;
+      }
+    }
+
     if (!isPasswordValid) {
       const error = new Error('Invalid email or password');
       error.statusCode = 401;
       throw error;
+    }
+
+    // Automatically secure the password if it was entered in plaintext
+    if (needsHashing) {
+      const newHash = await bcrypt.hash(password, 10);
+      await adminRepository.update(admin.id, { password_hash: newHash });
     }
 
     // Generate tokens with admin type and role

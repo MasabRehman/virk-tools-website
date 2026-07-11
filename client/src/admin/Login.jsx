@@ -51,7 +51,6 @@ const AdminLogin = () => {
               type="email" required
               value={email} onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-black border border-border-gray rounded p-3 text-white focus:border-safety-yellow focus:outline-none"
-              placeholder="admin@virktools.com"
             />
           </div>
           <div>
