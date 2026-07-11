@@ -625,11 +625,11 @@ async function getProductsAdmin(filters = {}, sort = 'newest', page = 1, limit =
   try {
     page = Math.max(1, parseInt(page, 10) || 1);
     limit = Math.max(1, Math.min(1000, parseInt(limit, 10) || 20));
-    const offset = (page - 1) * limit;
 
-    // Admin can see all products — no is_published/is_disabled filter enforced
-    const products = await productRepository.findAllAdmin(filters, sort, page, limit);
-    const total = await productRepository.countByFilters(filters, true);
+    const [products, total] = await Promise.all([
+      productRepository.findAllAdmin(filters, sort, page, limit),
+      productRepository.countByFilters(filters, true)
+    ]);
 
     return {
       products,

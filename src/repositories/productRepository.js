@@ -114,7 +114,9 @@ async function findAllAdmin(filters = {}, sort = 'newest', page = 1, limit = 20)
 
   const sql = `
     SELECT
-      p.*,
+      p.id, p.name, p.sku, p.slug, p.selling_price, p.main_image_url,
+      p.is_published, p.is_disabled, p.is_featured, p.category_id, p.brand_id, p.availability_status,
+      p.created_at, p.updated_at,
       b.name AS brand_name,
       b.logo_url AS brand_logo,
       c.name AS category_name,

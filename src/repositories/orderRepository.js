@@ -85,12 +85,16 @@ const orderRepository = {
 
     sql += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
     const offset = (page - 1) * limit;
-
-    const [countRows] = await query(countSql, params);
-    const totalCount = Number(countRows[0].totalCount);
-
+    
+    const countParams = [...params];
     params.push(limit, offset);
-    const [rows] = await query(sql, params);
+
+    const [[countRows], [rows]] = await Promise.all([
+      query(countSql, countParams),
+      query(sql, params)
+    ]);
+
+    const totalCount = Number(countRows[0].totalCount);
 
     return { rows, count: totalCount };
   },
